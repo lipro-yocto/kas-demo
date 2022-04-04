@@ -1,0 +1,70 @@
+---
+header:
+  # See documentation
+  # https://kas.readthedocs.io/en/latest/format-changelog.html
+  version: 11
+
+machine: nitrogen8m
+distro: boundary-wayland
+target: boundary-image-multimedia-full
+
+repos:
+
+  # This is us:
+  meta-kas-demo:
+    layers:
+      meta-kas-bsp:
+      meta-kas-distro:
+      meta-kas-ossfix:
+
+  poky:
+    url: "https://git.yoctoproject.org/poky"
+    refspec: "honister"
+    layers:
+      meta:
+      meta-poky:
+
+  meta-openembedded:
+    url: "https://github.com/openembedded/meta-openembedded"
+    refspec: "honister"
+    layers:
+      meta-gnome:
+      meta-multimedia:
+      meta-networking:
+      meta-oe:
+      meta-python:
+      meta-initramfs:
+
+  meta-freescale:
+    url: "https://git.yoctoproject.org/meta-freescale"
+    refspec: "honister"
+
+  meta-freescale-3rdparty:
+    url: "https://github.com/Freescale/meta-freescale-3rdparty"
+    refspec: "honister"
+
+  meta-freescale-distro:
+    url: "https://github.com/Freescale/meta-freescale-distro"
+    refspec: "honister"
+
+  meta-freescale-ml:
+    url: "https://github.com/Freescale/meta-freescale-ml"
+    refspec: "honister"
+
+  meta-boundary:
+    url: "https://github.com/boundarydevices/meta-boundary"
+    refspec: "honister"
+
+local_conf_header:
+  more-stuff: |
+    IMAGE_FSTYPES:append = " wic.bz2 ext4"
+    # Enable passwordless root-login
+    EXTRA_IMAGE_FEATURES:append = " debug-tweaks"
+    # Accept Freescale/NXP EULA
+    ACCEPT_FSL_EULA = "1"
+    # Avoid huge amount of downloads (tesseract OCR training data)
+    # PACKAGECONFIG:remove:pn-opencv = "text"
+    # FIXME: original project has rename its 'master' branch to 'main'
+    SRC_URI:pn-tesseract-lang = "git://github.com/tesseract-ocr/tessdata.git;branch=main;protocol=https"
+    # TODO: avoid this: "... no providers found in RDEPENDS:deepview-rt? [file-rdeps]"
+    INSANE_SKIP:append:pn-deepview-rt = "file-rdeps"
