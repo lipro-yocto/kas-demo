@@ -1,0 +1,84 @@
+---
+header:
+  # See documentation
+  # https://kas.readthedocs.io/en/latest/format-changelog.html
+  version: 11
+
+# https://variwiki.com/index.php?title=DART-MX8M_Release_Notes&release=RELEASE_DUNFELL_V1.5_DART-MX8M
+# possible targets: core-image-minimal, fsl-image-gui (Gtk+ 3.24.14), fsl-image-qt5 (Qt 5.14.2)
+machine: imx8mq-var-dart
+distro: fslc-xwayland
+target: fsl-image-qt5
+
+repos:
+
+  # This is us:
+  meta-kas-demo:
+    layers:
+      meta-kas-bsp:
+      meta-kas-distro:
+      meta-kas-ossfix:
+
+  poky:
+    url: "https://git.yoctoproject.org/poky"
+    refspec: "2a848e95074318f3a243df7b3f40513a13173a82"  # dunfell
+    layers:
+      meta:
+      meta-poky:
+
+  meta-openembedded:
+    url: "https://github.com/openembedded/meta-openembedded"
+    refspec: "7bd47ef6c98323c95a9e527129dca98c9a65ee08"  # dunfell
+    layers:
+      meta-gnome:
+      meta-multimedia:
+      meta-networking:
+      meta-oe:
+      meta-python:
+      meta-filesystems:
+
+  meta-freescale:
+    url: "https://git.yoctoproject.org/meta-freescale"
+    refspec: "12c3eed6a90b436565126d8ba6934f794b816e25"  # dunfell
+
+  meta-freescale-3rdparty:
+    url: "https://github.com/Freescale/meta-freescale-3rdparty"
+    refspec: "537cb85e4db17d1f6b356a92112b32ae2e39b235"  # dunfell
+
+  meta-freescale-distro:
+    url: "https://github.com/Freescale/meta-freescale-distro"
+    refspec: "5d882cdf079b3bde0bd9869ce3ca3db411acbf3b"  # dunfell
+
+  meta-qt5:
+    url: "https://github.com/meta-qt5/meta-qt5"
+    refspec: "b4d24d70aca75791902df5cd59a4f4a54aa4a125"  # dunfell
+
+  meta-swupdate:
+    url: "https://github.com/sbabic/meta-swupdate"
+    refspec: "72b493c7ed9f5e1fb4ae1ce180f913acc29748c5"  # dunfell
+
+  meta-virtualization:
+    url: "https://git.yoctoproject.org/meta-virtualization"
+    refspec: "758868633be479f38d19c3602be0094289fc1a75"  # dunfell
+
+  meta-variscite-fslc:
+    url: "https://github.com/varigit/meta-variscite-fslc"
+    refspec: "0fb46e37a1f79bf69170481d8d6df265472a7439"  # dunfell
+
+  meta-variscite-hab:
+    url: "https://github.com/varigit/meta-variscite-hab"
+    refspec: "ef52ce53d860f0552dd892874cfce62537f6564a"  # dunfell
+
+local_conf_header:
+  more-stuff: |
+    IMAGE_FSTYPES_append = " wic.bz2 ext4"
+    # Enable passwordless root-login
+    EXTRA_IMAGE_FEATURES_append = " debug-tweaks"
+    # Accept Freescale/NXP EULA
+    ACCEPT_FSL_EULA = "1"
+    # Avoid huge amount of downloads (tesseract OCR training data)
+    # PACKAGECONFIG_remove_pn-opencv = "text"
+    # FIXME: original project has rename its 'master' branch to 'main'
+    # SRC_URI_pn-tesseract-lang = "git://github.com/tesseract-ocr/tessdata.git;branch=main;protocol=https"
+    # TODO: avoid this: "... version for package went backwards which would break package feeds [version-going-backwards]"
+    INSANE_SKIP_append_pn-autoconf-archive = "version-going-backwards"
