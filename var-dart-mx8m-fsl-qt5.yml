@@ -18,6 +18,7 @@ repos:
       meta-kas-bsp:
       meta-kas-distro:
       meta-kas-ossfix:
+      meta-kas-backports-dunfell:
 
   poky:
     url: "https://git.yoctoproject.org/poky"
@@ -76,6 +77,22 @@ local_conf_header:
     EXTRA_IMAGE_FEATURES_append = " debug-tweaks"
     # Accept Freescale/NXP EULA
     ACCEPT_FSL_EULA = "1"
+    # Force to use the backported glibc 2.34
+    PREFERRED_VERSION_glibc = "2.34"
+    PREFERRED_VERSION_glibc-locale = "2.34"
+    PREFERRED_VERSION_glibc-mtrace = "2.34"
+    PREFERRED_VERSION_glibc-scripts = "2.34"
+    PREFERRED_VERSION_glibc-testsuite = "2.34"
+    PREFERRED_VERSION_cross-localedef-native = "2.34"
+    # Force to use the backported m4 1.4.19
+    PREFERRED_VERSION_m4 = "1.4.19"
+    PREFERRED_VERSION_m4-native = "1.4.19"
+    # Force to use the backported grep 3.7
+    PREFERRED_VERSION_grep = "3.7"
+    # Force to use the backported diffutils 3.8
+    PREFERRED_VERSION_diffutils = "3.8"
+    # Force to use the backported bluez5 5.61
+    PREFERRED_VERSION_bluez5 = "5.61"
     # Avoid huge amount of downloads (tesseract OCR training data)
     # PACKAGECONFIG_remove_pn-opencv = "text"
     # FIXME: original project has rename its 'master' branch to 'main'
