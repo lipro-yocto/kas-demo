@@ -3,7 +3,7 @@
 ## Build
 
 We use `kas`, a wrapper around Yocto/bitbake and replacement for the "old"
-Google Repo tool): <https://kas.readthedocs.io/en/latest/intro.html>
+Google Repo tool: <https://kas.readthedocs.io/en/latest/intro.html>
 
 It comes in two flavors, one of them is a fully Dockerized build environment,
 which we use here. So running a build boils down to executing the following
@@ -28,6 +28,5 @@ Build the SDK with
 
 ## Authors
 
-Simon Kuhnle <simon.kuhnle@methodpark.de>
-Stephan Linz <stephan.linz@navimatix.de>
-
+* Simon Kuhnle <simon.kuhnle@methodpark.de>
+* Stephan Linz <stephan.linz@navimatix.de>
