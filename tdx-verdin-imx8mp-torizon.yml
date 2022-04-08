@@ -1,0 +1,156 @@
+---
+
+# See documentation
+# https://kas.readthedocs.io/en/latest/userguide.html
+
+header:
+  # See documentation
+  # https://kas.readthedocs.io/en/latest/format-changelog.html
+  version: 11
+
+# https://developer.toradex.com/knowledge-base/build-torizoncore
+machine: verdin-imx8mp
+distro: torizon
+target: torizon-core-docker
+# target: torizon-core-lite
+
+repos:
+
+  bitbake:
+    url: "https://github.com/openembedded/bitbake"
+    refspec: "d22cc1e587c650fd5f90cda32f5720f8a3105aac"  # 1.46
+    path: "layers/bitbake"
+    layers:
+      layers/bitbake: excluded
+
+  # This is us:
+  meta-kas-demo:
+    layers:
+      meta-kas-bsp:
+      meta-kas-distro:
+      meta-kas-ossfix:
+
+  #
+  # BASELAYERS: These layers hold recipe metadata not found in OE-core,
+  #             but lack any machine or distro content.
+  #
+
+  openembedded-core:
+    url: "https://github.com/openembedded/openembedded-core"
+    refspec: "9360b92f98222cb74a93690f53570cd62633c0cf"  # dunfell
+    path: "layers/openembedded-core"
+    layers:
+      meta:
+
+  meta-openembedded:
+    url: "https://github.com/openembedded/meta-openembedded"
+    refspec: "ec978232732edbdd875ac367b5a9c04b881f2e19"  # dunfell
+    path: "layers/meta-openembedded"
+    layers:
+      meta-oe:
+      meta-networking:
+      meta-filesystems:
+      meta-python:
+      meta-perl:
+
+  meta-virtualization:
+    url: "https://git.yoctoproject.org/meta-virtualization"
+    refspec: "c4f156fa93b37b2428e09ae22dbd7f5875606f4d"
+    path: "layers/meta-virtualization"
+
+  meta-security:
+    url: "https://git.yoctoproject.org/meta-security"
+    refspec: "b76698c788cb8ca632077a972031899ef15025d6"
+    path: "layers/meta-security"
+
+  meta-updater:
+    url: "https://github.com/advancedtelematic/meta-updater"
+    refspec: "ffb3fb6e4e16e0f0087bb951a761321a2cefeada"
+    path: "layers/meta-updater"
+
+  meta-lmp:
+    url: "https://github.com/foundriesio/meta-lmp"
+    refspec: "030bf03654bc6ff4b574b575650318a56ba8665a"
+    path: "layers/meta-lmp"
+    layers:
+      meta-lmp-base:
+
+  #
+  # BSPLAYERS: These layers hold machine specific content,
+  #            aka Board Support Packages
+  #
+
+  meta-yocto:
+    url: "https://git.yoctoproject.org/meta-yocto"
+    refspec: "8124e73de7fd319d96cdb6f556d6b1943fbe41e3"  # dunfell
+    path: "layers/meta-yocto"
+    layers:
+      meta-poky:
+      meta-yocto-bsp:
+
+  meta-freescale:
+    url: "https://git.yoctoproject.org/meta-freescale"
+    refspec: "5a026be5a6b29a27a7754d7fa5d4765c99f98ed9"  # dunfell
+    path: "layers/meta-freescale"
+
+  meta-freescale-3rdparty:
+    url: "https://github.com/Freescale/meta-freescale-3rdparty"
+    refspec: "c52f64973cd4043a5e8be1c7e29bb9690eb4c3e5"  # dunfell
+    path: "layers/meta-freescale-3rdparty"
+
+  meta-freescale-distro:
+    url: "https://github.com/Freescale/meta-freescale-distro"
+    refspec: "5d882cdf079b3bde0bd9869ce3ca3db411acbf3b"  # dunfell
+    path: "layers/meta-freescale-distro"
+    layers:
+      layers/meta-freescale-distro: excluded
+
+  meta-toradex-bsp-common:
+    url: "https://git.toradex.com/meta-toradex-bsp-common.git"
+    refspec: "4487e89561252487608e227d7077cb2b2d79f37c"  # dunfell-5.x.y
+    path: "layers/meta-toradex-bsp-common"
+
+  meta-toradex-nxp:
+    url: "https://git.toradex.com/meta-toradex-nxp.git"
+    refspec: "274b960cffb51b7ca4505ca06c530b0b2df603e0"  # dunfell-5.x.y
+    path: "layers/meta-toradex-nxp"
+
+  meta-toradex-tegra:
+    url: "https://git.toradex.com/meta-toradex-tegra.git"
+    refspec: "18e4c82dae75d61eecf0c5e8e1ce815656258ee2"  # dunfell-5.x.y
+    path: "layers/meta-toradex-tegra"
+    layers:
+      layers/meta-toradex-tegra: excluded
+
+  #
+  # DISTROLAYERS: Toradex Torizon distribution.
+  #
+
+  meta-toradex-distro:
+    url: "https://git.toradex.com/meta-toradex-distro.git"
+    refspec: "a991a45459b7f3c0870ef94da6e48c279eaa97f0"
+    path: "layers/meta-toradex-distro"
+
+  meta-toradex-torizon:
+    url: "https://github.com/toradex/meta-toradex-torizon"
+    refspec: "a49d9835f914a59173b14a3a7deb4b35f325f51a"
+    path: "layers/meta-toradex-torizon"
+    # <linkfile dest="setup-environment" src="scripts/setup-environment"/>
+
+bblayers_conf_header:
+  oedir-stuff: |
+    OEROOT := "/work"
+
+local_conf_header:
+  build-stuff: |
+    # Where to save the build system work output
+    TMPDIR = "/build/tmp"
+    # Where to save the packages and images
+    DEPLOY_DIR = "/build/deploy"
+  more-stuff: |
+    # TODO: Task do_image_wic ... depends upon non-existent task do_image_ota_ext4
+    # IMAGE_FSTYPES_append = " wic.bz2 ext4"
+    # Enable passwordless root-login
+    EXTRA_IMAGE_FEATURES_append = " debug-tweaks"
+    # Accept Freescale/NXP EULA
+    ACCEPT_FSL_EULA = "1"
