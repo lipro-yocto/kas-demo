@@ -74,5 +74,5 @@ local_conf_header:
     INSANE_SKIP:append:pn-deepview-rt = "file-rdeps"
 
   qt6-stuff: |
-    IMAGE_INSTALL:append = " qtbase-examples"
-    PACKAGECONFIG:append:pn-qtbase = " examples"
+    IMAGE_INSTALL:append = " qtdeclarative-examples qtwayland"
+    PACKAGECONFIG:append:pn-qtdeclarative = " examples"
