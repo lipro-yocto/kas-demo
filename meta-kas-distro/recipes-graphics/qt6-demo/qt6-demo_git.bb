@@ -1,4 +1,4 @@
-require qt6_demo.inc
+require qt6-demo.inc
 
 SRCREV = "${AUTOREV}"
 S = "${WORKDIR}/git"
